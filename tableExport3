@@ -1,0 +1,68 @@
+CREATE DATABASE pre_registration;
+USE pre_registration;
+CREATE TABLE record(
+ id INT NOT NULL AUTO_INCREMENT,
+ first_name VARCHAR(255) NOT NULL,
+ PRIMARY KEY (id)
+);
+
+CREATE TABLE record2 (
+ id INT NOT NULL AUTO_INCREMENT,
+ location VARCHAR(255) NOT NULL,
+ entry_date INT,
+ records_id INT NOT NULL, 
+ PRIMARY KEY (id),
+ FOREIGN KEY (records_id) REFERENCES record(id)
+);
+
+INSERT INTO record (first_name)
+VALUES ('Abigail');
+INSERT INTO record (first_name)
+VALUES ('Michael'), ('CayLynn'), ('Virginia');
+SELECT * FROM record;
+SELECT id AS 'ID', first_name AS 'Pre-Registration User' FROM record;
+SELECT * FROM record ORDER BY first_name DESC;
+
+INSERT INTO record2 (location, entry_date, records_id)
+VALUES ('Princess Anne, MA', 2024, 1),
+       ('Crisfield, MA', 2024, 2),
+	   ('Crisfield, MA', 2024, 3),
+       ('Crisfield, MA', 2024, 4);
+SELECT * FROM record2;
+SELECT DISTINCT location FROM record2;
+UPDATE record2 SET entry_date = 2023
+WHERE id = 1;
+
+SELECT * FROM record2
+WHERE entry_date < 2024 OR location LIKE '%ne%';
+SELECT * FROM record2
+WHERE id = 1 AND entry_date = 2023;
+SELECT * FROM record2
+WHERE id BETWEEN 1 AND 3;
+DELETE FROM record2 WHERE id = 3;
+SELECT * FROM record2;
+
+SELECT * FROM record
+JOIN record2 ON record.id = record2.records_id;
+SELECT * FROM record2
+RIGHT JOIN record ON record.id = record2.records_id;
+
+SELECT AVG(entry_date) FROM record2;
+SELECT SUM(entry_date) FROM record2;
+SELECT records_id, COUNT(records_id) FROM record2
+GROUP BY records_id;
+
+SELECT records_id, COUNT(records_id) FROM record2
+GROUP BY records_id;
+
+SELECT r.first_name AS first_name, COUNT(r2.id) AS num_record2
+FROM record AS r
+LEFT JOIN record2 AS a ON r.id = r2.records_id
+GROUP BY r.id;
+
+
+
+
+
+
+
